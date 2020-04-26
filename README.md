@@ -1,4 +1,4 @@
-## Team Name - Domain Name
+## Dementor Divas - Education
 
 The participants are required to use this repository as a template and create a private Github repository under their own username (Single repository per team). The following created sections in this README.md need to be duly filled, highlighting the denoted points for the solution/implementation. Please feel free to create further sub-sections in this markdown, the idea is to understand the gist of the components in a singular document.
 
@@ -26,4 +26,7 @@ An overview of
 ### Team Members
 ----------------------------------
 
-List of team member names and email IDs
+1.Ria Singh - rias8957@gmail.com
+2.Roli Vrema - roliivverma@gmail.com
+3.Aditi Agrawal - aditiagrawal454@gmail.com
+
