@@ -68,7 +68,7 @@ public class SearchFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         result.clear();
                         for (QueryDocumentSnapshot snapshot : task.getResult()){
-                            if(comSubstr(s,snapshot.getData().get("Title").toString())==1)//if(snapshot.getData().get("Title").toString().equalsIgnoreCase(s))
+                            if(comSubstr(s.toLowerCase(),snapshot.getData().get("Title").toString().toLowerCase())==1)//if(snapshot.getData().get("Title").toString().equalsIgnoreCase(s))
                             {
                                 Feed obj=snapshot.toObject(Models.Feed.class);
                                 result.add((obj));

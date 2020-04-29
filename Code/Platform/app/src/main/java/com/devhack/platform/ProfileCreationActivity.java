@@ -1,10 +1,16 @@
 package com.devhack.platform;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -21,10 +27,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class ProfileCreationActivity extends AppCompatActivity {
     TextInputEditText name,prof,email,pass;
@@ -33,6 +45,11 @@ public class ProfileCreationActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     FirebaseFirestore db;
     TextView login;
+    private File filePath;
+    Uri imageUri;
+    CircleImageView profilePic;
+    private String downUri;
+    StorageReference storageReference;
 
     String[] list=new String[]{"Engineering","Medical","Humanities","Law"};
 
@@ -48,10 +65,12 @@ public class ProfileCreationActivity extends AppCompatActivity {
         signUp=findViewById(R.id.signUp);
         login=findViewById(R.id.login);
         addImage=findViewById(R.id.addImage);
+        profilePic=findViewById(R.id.pic);
 
-        //Initializing FirebaseAuth
+        //Initializing Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        storageReference= FirebaseStorage.getInstance().getReference();
 
         ArrayAdapter<String>adapter=new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1,list);
@@ -102,14 +121,11 @@ public class ProfileCreationActivity extends AppCompatActivity {
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                openGallery();
             }
         });
 
     }
-
-
-
 
     public void createUser(FirebaseUser user,String Email,String Pass,String name,String interest,String prof ){
         Map<String, String> params = new HashMap<>();
@@ -119,6 +135,7 @@ public class ProfileCreationActivity extends AppCompatActivity {
         params.put("name",name);
         params.put("interest",interest);
         params.put("prof",prof);
+        params.put("profilePic",downUri);
 
         db.collection("users")
                 .document(user.getUid())
@@ -138,5 +155,68 @@ public class ProfileCreationActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    public void uploadImage(){
+        if(imageUri!=null){
+            final ProgressDialog progressDialog=new ProgressDialog(ProfileCreationActivity.this);
+            progressDialog.setTitle("Uploading");
+            progressDialog.show();
+            progressDialog.setCancelable(false);
+
+            final StorageReference reference=storageReference.child("images/"+ UUID.randomUUID().toString());//  System.currentTimeMillis()+"."+getExtension(imageUri)
+            reference.putFile(imageUri)
+                    .addOnSuccessListener(ProfileCreationActivity.this,new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    downUri=uri.toString();
+                                    Toast.makeText(ProfileCreationActivity.this, "DownUri:"+downUri, Toast.LENGTH_SHORT).show();
+                                    imageUri=null;
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ProfileCreationActivity.this, "Error"+e, Toast.LENGTH_SHORT).show();
+
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress=(int)(100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
+                            progressDialog.setMessage("Uploading:"+(int)progress+"%");
+
+                        }
+                    });
+
+        }
+        else {
+        }
+    }
+
+    public void openGallery(){
+        Intent gallery=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(gallery,1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            imageUri=data.getData();
+            uploadImage();
+            profilePic.setImageURI(imageUri);
+        }
+       else {
+            Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show();
+        }
     }
 }
