@@ -49,6 +49,7 @@ public class GroupchatActivity extends AppCompatActivity {
 
         currentgroupname = getIntent().getExtras().get("groupname").toString();
         mauth = FirebaseAuth.getInstance();
+        mtoolbar = (Toolbar) findViewById(R.id.group_chat_bar_layout);
         currentuserid = mauth.getCurrentUser().getUid();
         userref = FirebaseDatabase.getInstance().getReference().child("Users");
         grpnameref = FirebaseDatabase.getInstance().getReference().child("Groups").child(currentgroupname);

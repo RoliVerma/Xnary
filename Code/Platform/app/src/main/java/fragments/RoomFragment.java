@@ -41,7 +41,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class RoomFragment extends Fragment {
     ImageView creatRoom;
-    private DatabaseReference rootref;
+    private DatabaseReference rootref,groupref;
     private View grpview;
     private ListView list_view;
     private ArrayAdapter<String> arrayadapter;
@@ -55,15 +55,26 @@ public class RoomFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_room, container, false);
         creatRoom = view.findViewById(R.id.createroom);
         rootref = FirebaseDatabase.getInstance().getReference();
+        groupref= FirebaseDatabase.getInstance().getReference().child("Rooms");
+        initializefileds(view);
         rootref.child("Rooms").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists())
-                {
-                  creatRoom.setVisibility(View.INVISIBLE);
+                if (dataSnapshot.exists()) {
+                    Toast.makeText(getContext(), "Got some Rooms", Toast.LENGTH_LONG).show();
+                    retriveanddisplaygroup();
+                } else {
+                    creatRoom.setVisibility(View.VISIBLE);
+                    Toast.makeText(getContext(), "No Rooms", Toast.LENGTH_LONG).show();
+                    creatRoom.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                         requestnewroom();
+                        }
+
+
+                    });
                 }
-                else
-                    requestnewroom();
             }
 
             @Override
@@ -71,8 +82,6 @@ public class RoomFragment extends Fragment {
 
             }
         });
-        initializefileds();
-        retriveanddisplaygroup();
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                              @Override
                                              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -87,11 +96,6 @@ public class RoomFragment extends Fragment {
             }
 
             private void requestnewroom() {
-                creatRoom.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
                 builder.setTitle("Enter Group Name");
                 final EditText grpname = new EditText(getContext());
@@ -118,30 +122,30 @@ public class RoomFragment extends Fragment {
                 });
                 builder.show();
                     }
-                });
 
-            }
 
             private void createnewroom(final String grp) {
                 rootref.child("Rooms").child(grp).setValue("").addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            creatRoom.setVisibility(View.INVISIBLE);
                             Toast.makeText(getContext(), grp + "Created successfully !!", Toast.LENGTH_LONG).show();
+                            retriveanddisplaygroup();
                         }
 
                     }
                 });
             }
-    private void initializefileds() {
-        list_view=grpview.findViewById(R.id.list_view);
+    private void initializefileds(View view) {
+        list_view=view.findViewById(R.id.list_view);
         arrayadapter=new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,listofgrps);
         list_view.setAdapter(arrayadapter);
 
 
     }
     private void retriveanddisplaygroup() {
-        rootref.addValueEventListener(new ValueEventListener() {
+        rootref.child("Rooms").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Set<String> set=new HashSet<>();
