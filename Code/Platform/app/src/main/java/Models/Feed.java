@@ -1,30 +1,30 @@
 package Models;
 
 public class Feed {
-    String title,desc,file,img,video,seminar,date,time,user;
+    String Title,Desc,File,Image,Video,Seminar,date,time,user,Genre,timestamp;
 
     public String getTitle() {
-        return title;
+        return Title;
     }
 
     public String getDesc() {
-        return desc;
+        return Desc;
     }
 
     public String getFile() {
-        return file;
+        return File;
     }
 
-    public String getImg() {
-        return img;
+    public String getImage() {
+        return Image;
     }
 
     public String getVideo() {
-        return video;
+        return Video;
     }
 
     public String getSeminar() {
-        return seminar;
+        return Seminar;
     }
 
     public String getDate() {
@@ -37,5 +37,13 @@ public class Feed {
 
     public String getUser() {
         return user;
+    }
+
+    public String getGenre() {
+        return Genre;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
     }
 }

@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="20dp"
-    app:cardCornerRadius="8dp">
+    android:elevation="30dp"
+    app:cardCornerRadius="8dp"
+    android:backgroundTint="@color/overlay_dark_30">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:layout_margin="2dp"
+        android:background="@color/overlay_light_90"
+       >
 
         <ImageView
             android:id="@+id/img"
@@ -53,16 +57,19 @@
             android:layout_height="50dp"
             android:layout_below="@id/desc"
             app:cardCornerRadius="10dp"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:background="@color/grey_300">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/grey_300">
 
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_marginRight="10dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
