@@ -52,8 +52,8 @@ public class RoomFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_room, container, false);
-        creatRoom = view.findViewById(R.id.createroom);
+        grpview= inflater.inflate(R.layout.fragment_room, container, false);
+        creatRoom = grpview.findViewById(R.id.createroom);
         rootref = FirebaseDatabase.getInstance().getReference();
         groupref= FirebaseDatabase.getInstance().getReference().child("Rooms");
         initializefileds(view);
@@ -92,7 +92,7 @@ public class RoomFragment extends Fragment {
                                              }
                                          });
 
-                return view;
+                return grpview;
             }
 
             private void requestnewroom() {

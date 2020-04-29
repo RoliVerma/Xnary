@@ -3,10 +3,15 @@ package com.devhack.platform;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import Models.Feed;
@@ -32,17 +37,29 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedAdaterView
 
     @Override
     public void onBindViewHolder(@NonNull FeedAdaterViewHolder holder, int position) {
-        Feed obj=list.get(position);
+        final Feed obj=list.get(position);
         holder.title.setText(obj.getTitle());
         holder.desc.setText(obj.getDesc());
-        if(obj.getFile()!=null){
+        if(!obj.getFile().equals("")){
+            holder.pdf.setVisibility(View.VISIBLE);
             holder.pdf.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   // context.startActivity(new Intent());
+                    context.startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(obj.getFile())));
                 }
             });
         }
+        else if(!obj.getImage().equals("")){
+            holder.img.setVisibility(View.VISIBLE);
+            Glide.with(context).load(obj.getImage()).into(holder.img);
+        }
+        else
+            if(!obj.getVideo().equals("")){
+                holder.video.setVisibility(View.VISIBLE);
+                holder.video.setVideoPath(obj.getVideo());
+                holder.video.start();
+            }
 
 
 
@@ -54,7 +71,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedAdaterView
     }
 
     public class FeedAdaterViewHolder extends RecyclerView.ViewHolder{
-        TextView title,desc,img,video;
+        TextView title,desc;
+        ImageView img;
+        VideoView video;
         CardView pdf;
         public FeedAdaterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,15 +85,4 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedAdaterView
         }
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if(list.get(position).getImg()!=null)
-            return 1;
-        else if(list.get(position).getVideo()!=null)
-            return 2;
-        else if(list.get(position).getFile()!=null)
-            return 3;
-        else
-            return 4;
-    }
 }

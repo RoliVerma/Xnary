@@ -7,6 +7,7 @@
     tools:context=".HomePageActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/app_name"
@@ -17,7 +18,10 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_nav"/>
+        android:layout_above="@id/bottom_nav"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="10dp"
+        />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
