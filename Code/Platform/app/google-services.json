@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "855137658707-uevbmijgo4ghjf2chjrgpt729q9p5o2l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devhack.platform",
+            "certificate_hash": "7e6278d029502fbeabd031fbd0198cec69a865bb"
+          }
+        },
+        {
           "client_id": "855137658707-ps1k02p8tat9k466snjvluhpb3gpu7g4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
