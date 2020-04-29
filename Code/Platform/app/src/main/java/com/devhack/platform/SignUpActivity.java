@@ -26,7 +26,7 @@ import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
     TextInputEditText email,pass;
-    Button signUp;
+    Button prof;
     TextView login;
 
     private FirebaseAuth mAuth;
@@ -39,14 +39,14 @@ public class SignUpActivity extends AppCompatActivity {
         //Initializing components
         email=findViewById(R.id.email);
         pass=findViewById(R.id.pass);
-        signUp =findViewById(R.id.signIn);
+        prof =findViewById(R.id.prof);
         login=findViewById(R.id.login);
 
         //Initializing FirebaseAuth
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        signUp.setOnClickListener(new View.OnClickListener() {
+        prof.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String Email=email.getText().toString().trim();

@@ -15,9 +15,21 @@
         <item name="android:textColorHint">@color/overlay_light_90</item>
     </style>
 
+    <style name="EditText.Purple" parent="@style/AppTheme">
+        <item name="colorControlActivated">@color/purple_900</item>
+        <item name="colorControlHighlight">@color/purple_900</item>
+        <item name="colorControlNormal">@color/grey_10</item>
+        <item name="android:textColorHint">@color/purple_900</item>
+    </style>
+
     <style name="EditText.White.Hint" parent="@style/EditText.White">
         <item name="colorAccent">@android:color/white</item>
         <item name="android:textColorHint">@color/overlay_light_90</item>
+    </style>
+
+    <style name="EditText.Purple.Hint" parent="@style/EditText.Purple">
+        <item name="colorAccent">@color/purple_900</item>
+        <item name="android:textColorHint">@color/purple_900</item>
     </style>
 
 </resources>
