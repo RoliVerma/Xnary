@@ -56,7 +56,7 @@ public class RoomFragment extends Fragment {
         creatRoom = grpview.findViewById(R.id.createroom);
         rootref = FirebaseDatabase.getInstance().getReference();
         groupref= FirebaseDatabase.getInstance().getReference().child("Rooms");
-        initializefileds(view);
+        initializefileds(grpview);
         rootref.child("Rooms").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
