@@ -6,15 +6,6 @@
     tools:context="fragments.RoomFragment"
     >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="100dp"
-        android:text="Create Room"
-        android:textSize="40dp"
-        android:textColor="#19D1D1"
-        android:textStyle="bold"></TextView>
     <ListView
 
         android:id="@+id/list_view"
@@ -33,6 +24,7 @@
         android:layout_marginTop="190dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="191dp"
+        android:visibility="invisible"
         android:src="@drawable/ic_person_add_black_24dp"></ImageView>
 
 
