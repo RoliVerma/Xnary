@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/DementorDivas-Education-Devhacks.iml" filepath="$PROJECT_DIR$/.idea/DementorDivas-Education-Devhacks.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DementorDivas-Education-Devhacks.iml" filepath="$PROJECT_DIR$/DementorDivas-Education-Devhacks.iml" group="DementorDivas-Education-Devhacks" />
     </modules>
   </component>
 </project>

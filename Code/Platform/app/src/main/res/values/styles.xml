@@ -31,5 +31,6 @@
         <item name="colorAccent">@color/purple_900</item>
         <item name="android:textColorHint">@color/purple_900</item>
     </style>
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog"></style>
 
 </resources>
