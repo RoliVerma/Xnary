@@ -7,6 +7,29 @@
     app:cardCornerRadius="8dp"
     android:backgroundTint="@color/overlay_dark_30">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/pic"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/profile"
+                android:layout_marginRight="10dp"/>
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name surname"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -84,6 +107,7 @@
 
 
     </RelativeLayout>
+    </LinearLayout>
 
 
 </androidx.cardview.widget.CardView>

@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void receivePost(){
-        db.collection("Feed").get()
+        db.collection("Feed").orderBy("timestamp").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
