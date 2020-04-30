@@ -29,6 +29,6 @@ Code can be run through Android Studio.
 ----------------------------------
 
 1.Ria Singh - rias8957@gmail.com
-2.Roli Vrema - roliivverma@gmail.com
+2.Roli Verma - roliivverma@gmail.com
 3.Aditi Agrawal - aditiagrawal454@gmail.com
 
