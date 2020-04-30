@@ -29,6 +29,8 @@
         android:layout_below="@+id/tv_dname2"
         android:text="Create Room"
         android:textSize="20dp"
+        android:textColor="#FFFFFF"
+        android:background="#000000"
         android:layout_marginTop="15dp"/>
 
 

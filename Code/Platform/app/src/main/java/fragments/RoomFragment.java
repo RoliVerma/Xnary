@@ -83,7 +83,7 @@ public class RoomFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     createNewRoom.setVisibility(View.VISIBLE);
-                    Toast.makeText(getActivity(), "Got some Rooms", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), "Got some Rooms", Toast.LENGTH_LONG).show();
                     retriveanddisplaygroup();
                 } else {
                     creatRoom.setVisibility(View.VISIBLE);
@@ -110,7 +110,7 @@ public class RoomFragment extends Fragment {
 
     private void requestnewroom() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
-        builder.setTitle("Enter Group Name");
+        builder.setTitle("Enter Room Name");
         final EditText grpname = new EditText(getContext());
         grpname.setHint(" eg.What is Newtons 1st Law");
         builder.setView(grpname);
