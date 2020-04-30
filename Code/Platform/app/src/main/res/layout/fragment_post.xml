@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.1"
-            android:text="Enter Title"/>
+            android:hint="Enter title"/>
     <EditText
         android:id="@+id/edit_post"
         android:layout_width="match_parent"
@@ -51,7 +51,7 @@
         android:layout_weight="0.8"
         android:gravity="start"
         android:background="@drawable/textview_design"
-        android:hint="Eter your description here"
+        android:hint="Enter your description here"
         />
         <androidx.cardview.widget.CardView
             android:id="@+id/doc"
