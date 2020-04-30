@@ -5,9 +5,41 @@
     tools:context="fragments.PostFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/parent_relative"
+        android:padding="12dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/title_relative">
+            <ImageView
+                android:id="@+id/faceicon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_face_black_24dp"/>
+            <TextView
+                android:layout_toEndOf="@id/faceicon"
+                android:layout_width="match_parent"
+                android:text="Create your post here"
+                android:layout_centerVertical="true"
+                android:layout_height="50dp"/>
+    </RelativeLayout>
+    <EditText
+        android:id="@+id/edit_post"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_relative"
+        android:hint="Share your real world experience with textbook conepts"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </RelativeLayout>
 
 </FrameLayout>
