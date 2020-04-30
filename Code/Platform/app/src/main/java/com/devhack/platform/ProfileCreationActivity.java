@@ -144,6 +144,7 @@ public class ProfileCreationActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         startActivity(new Intent(ProfileCreationActivity.this,HomePageActivity.class));
+                        finish();
                         email.setText("");
                         pass.setText("");
                     }

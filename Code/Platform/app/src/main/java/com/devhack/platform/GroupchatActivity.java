@@ -60,6 +60,7 @@ public class GroupchatActivity extends AppCompatActivity {
         fstore=FirebaseFirestore.getInstance();
         mtoolbar = (Toolbar) findViewById(R.id.group_chat_bar_layout);
         currentuserid = mauth.getCurrentUser().getUid();
+        Toast.makeText(this, "Current user"+currentuserid, Toast.LENGTH_SHORT).show();
         userref = FirebaseDatabase.getInstance().getReference().child("Users");
         grpnameref = FirebaseDatabase.getInstance().getReference().child("Rooms").child(currentgroupname);
         initializefields();
@@ -76,7 +77,7 @@ public class GroupchatActivity extends AppCompatActivity {
 
         });
 
-        Toast.makeText(GroupchatActivity.this, currentgroupname, Toast.LENGTH_LONG).show();
+       // Toast.makeText(GroupchatActivity.this, currentgroupname, Toast.LENGTH_LONG).show();
     }
 
     @Override
