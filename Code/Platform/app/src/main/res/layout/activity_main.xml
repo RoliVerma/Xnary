@@ -8,17 +8,17 @@
     tools:context=".MainActivity">
 
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/right_arrow"
-        />
+<!--    <ImageView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/right_arrow"-->
+<!--        />-->
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/teal_overlay"/>
+        android:background="@color/overlay_dark_90"/>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,13 +33,14 @@
             android:layout_width="150dp"
             android:layout_height="120dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/dictionary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.08" />
+            app:layout_constraintVertical_bias="0.08"
+            />
 
         <TextView
             android:id="@+id/textView2"

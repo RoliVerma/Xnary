@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.devhack.platform.GroupchatActivity;
 import com.devhack.platform.R;
+import com.devhack.platform.VerticalSpacingItemDecoration;
 import com.devhack.platform.roomRecycler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -65,6 +66,8 @@ public class RoomFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
+        VerticalSpacingItemDecoration itemDecoration = new VerticalSpacingItemDecoration(20);
+        recyclerView.addItemDecoration(itemDecoration);
         listofgrps = new ArrayList<>();
         rootref = FirebaseDatabase.getInstance().getReference();
         groupref= FirebaseDatabase.getInstance().getReference().child("Rooms");
