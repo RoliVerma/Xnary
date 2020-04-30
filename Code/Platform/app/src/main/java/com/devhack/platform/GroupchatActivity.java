@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -15,6 +16,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +25,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +45,7 @@ public class GroupchatActivity extends AppCompatActivity {
     private ScrollView mscroll;
     private TextView displaytextmsgs;
     private FirebaseAuth mauth;
+    private FirebaseFirestore fstore;
     private DatabaseReference userref, grpnameref, grpmsgkeyref;
     private String currentgroupname, currentuserid, currentusername, currentdate, currenttime;
 
@@ -50,6 +57,7 @@ public class GroupchatActivity extends AppCompatActivity {
 
         currentgroupname = getIntent().getExtras().get("groupname").toString();
         mauth = FirebaseAuth.getInstance();
+        fstore=FirebaseFirestore.getInstance();
         mtoolbar = (Toolbar) findViewById(R.id.group_chat_bar_layout);
         currentuserid = mauth.getCurrentUser().getUid();
         userref = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -119,19 +127,21 @@ public class GroupchatActivity extends AppCompatActivity {
     }
 
     private void getusetrinfo() {
-        userref.child(currentuserid).addValueEventListener(new ValueEventListener() {
+        DocumentReference docRef = fstore.collection("users").document(currentuserid);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    currentusername = dataSnapshot.child("name").getValue().toString();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null) {
+                        currentusername = document.getString("name");
+
+                    } else {
+                        Log.d("LOGGER", "No such document");
+                    }
+                } else {
+                    Log.d("LOGGER", "get failed with ", task.getException());
                 }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
@@ -156,9 +166,7 @@ public class GroupchatActivity extends AppCompatActivity {
             msginfomap.put("ukey",msgkey);
             msginfomap.put("name", currentusername);
             msginfomap.put("message", msg);
-
             msginfomap.put("Date", currentdate);
-
             msginfomap.put("Time", currenttime);
             grpmsgkeyref.updateChildren(msginfomap);
 

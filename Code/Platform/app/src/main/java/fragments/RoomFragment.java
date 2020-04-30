@@ -80,7 +80,7 @@ public class RoomFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     createNewRoom.setVisibility(View.VISIBLE);
-                    Toast.makeText(getActivity(), "Got some Rooms", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), "Got some Rooms", Toast.LENGTH_LONG).show();
                     retriveanddisplaygroup();
                 } else {
                     creatRoom.setVisibility(View.VISIBLE);
