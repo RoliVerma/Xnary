@@ -107,7 +107,7 @@ public class RoomFragment extends Fragment {
 
     private void requestnewroom() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
-        builder.setTitle("Enter Group Name");
+        builder.setTitle("Enter Room Name");
         final EditText grpname = new EditText(getContext());
         grpname.setHint(" eg.What is Newtons 1st Law");
         builder.setView(grpname);
