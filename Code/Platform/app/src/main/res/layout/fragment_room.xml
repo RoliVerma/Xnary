@@ -3,14 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fragments.RoomFragment"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="fragments.RoomFragment">
 
-    <ListView
 
-        android:id="@+id/list_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatsRv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        app:stackFromEnd="true"
+        app:reverseLayout="true"/>
 
     <ImageView
         android:id="@+id/createroom"
@@ -23,10 +26,17 @@
         android:layout_marginStart="31dp"
         android:layout_marginTop="190dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="191dp"
+        android:layout_marginBottom="200dp"
         android:visibility="invisible"
         android:src="@drawable/ic_person_add_black_24dp"></ImageView>
-
+    <ImageView
+        android:id="@+id/createnewroom"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="590dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_person_add_black_24dp"
+        android:visibility="invisible"></ImageView>
 
 </RelativeLayout>
 

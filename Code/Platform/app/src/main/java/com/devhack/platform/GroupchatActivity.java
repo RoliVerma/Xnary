@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ import java.util.Map;
 
 public class GroupchatActivity extends AppCompatActivity {
     private Toolbar mtoolbar;
-    private ImageButton sendbtn;
+    private ImageView sendbtn;
     private EditText usermsg;
     private ScrollView mscroll;
     private TextView displaytextmsgs;
@@ -111,7 +112,7 @@ public class GroupchatActivity extends AppCompatActivity {
         //Toast.makeText(GroupchatActivity.this,currentgroupname,Toast.LENGTH_LONG).show();
         setSupportActionBar(mtoolbar);
         getSupportActionBar().setTitle(currentgroupname);
-        sendbtn = (ImageButton) findViewById(R.id.sendbutton);
+        sendbtn = (ImageView) findViewById(R.id.sendbutton);
         usermsg = (EditText) findViewById(R.id.input_group_msg);
         displaytextmsgs = (TextView) findViewById(R.id.group_chat_text_display);
         mscroll = (ScrollView) findViewById(R.id.myscroll_view);
@@ -182,7 +183,7 @@ public class GroupchatActivity extends AppCompatActivity {
             int systemdatte = Integer.parseInt(systemdates);
             systemdatte -= dateint;
 
-            if (systemdatte >=2) {
+            if (systemdatte >=10) {
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Groupus").child(currentgroupname).child(key);
                 //reference.child("Date").removeValue();
                 //reference.child("Time").removeValue();
