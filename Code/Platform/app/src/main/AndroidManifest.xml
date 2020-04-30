@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".GroupchatActivity"></activity>
-        <activity android:name=".HomePageActivity">
+        <activity android:name=".SignUpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ProfileCreationActivity" />
-        <activity android:name=".SignUpActivity" />
+        <activity android:name=".HomePageActivity" />
         <activity android:name=".MainActivity">
 
         </activity>

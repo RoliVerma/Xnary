@@ -61,7 +61,7 @@ public class GroupchatActivity extends AppCompatActivity {
         mtoolbar = (Toolbar) findViewById(R.id.group_chat_bar_layout);
         currentuserid = mauth.getCurrentUser().getUid();
         userref = FirebaseDatabase.getInstance().getReference().child("Users");
-        grpnameref = FirebaseDatabase.getInstance().getReference().child("Groups").child(currentgroupname);
+        grpnameref = FirebaseDatabase.getInstance().getReference().child("Rooms").child(currentgroupname);
         initializefields();
         getusetrinfo();
         sendbtn.setOnClickListener(new View.OnClickListener() {
@@ -144,9 +144,7 @@ public class GroupchatActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
     private void sendmsgtodatabse() {
         String msg = usermsg.getText().toString();
         String msgkey = grpnameref.push().getKey();
@@ -166,7 +164,9 @@ public class GroupchatActivity extends AppCompatActivity {
             msginfomap.put("ukey",msgkey);
             msginfomap.put("name", currentusername);
             msginfomap.put("message", msg);
+
             msginfomap.put("Date", currentdate);
+
             msginfomap.put("Time", currenttime);
             grpmsgkeyref.updateChildren(msginfomap);
 
@@ -184,6 +184,7 @@ public class GroupchatActivity extends AppCompatActivity {
             String chattime = (String) ((DataSnapshot) iterator.next()).getValue();
             String chatmsg = (String) ((DataSnapshot) iterator.next()).getValue();
             String chatname = (String) ((DataSnapshot) iterator.next()).getValue();
+            String keyid = (String) ((DataSnapshot) iterator.next()).getValue();
 
             String date = chatdate.substring(1, 3);
             int dateint = Integer.parseInt(date);
@@ -191,8 +192,8 @@ public class GroupchatActivity extends AppCompatActivity {
             int systemdatte = Integer.parseInt(systemdates);
             systemdatte -= dateint;
 
-            if (systemdatte >=10) {
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Groupus").child(currentgroupname).child(key);
+            if (systemdatte >=2) {
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Rooms").child(currentgroupname).child(key);
                 //reference.child("Date").removeValue();
                 //reference.child("Time").removeValue();
                 //reference.child("message").removeValue();
@@ -210,4 +211,3 @@ public class GroupchatActivity extends AppCompatActivity {
 
     }
 }
-
