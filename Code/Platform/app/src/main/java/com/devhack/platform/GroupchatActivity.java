@@ -161,12 +161,9 @@ public class GroupchatActivity extends AppCompatActivity {
             grpnameref.updateChildren(grpmsgkey);
             grpmsgkeyref = grpnameref.child(msgkey);
             HashMap<String, Object> msginfomap = new HashMap<>();
-            msginfomap.put("ukey",msgkey);
             msginfomap.put("name", currentusername);
             msginfomap.put("message", msg);
-
             msginfomap.put("Date", currentdate);
-
             msginfomap.put("Time", currenttime);
             grpmsgkeyref.updateChildren(msginfomap);
 
@@ -184,7 +181,6 @@ public class GroupchatActivity extends AppCompatActivity {
             String chattime = (String) ((DataSnapshot) iterator.next()).getValue();
             String chatmsg = (String) ((DataSnapshot) iterator.next()).getValue();
             String chatname = (String) ((DataSnapshot) iterator.next()).getValue();
-            String keyid = (String) ((DataSnapshot) iterator.next()).getValue();
 
             String date = chatdate.substring(1, 3);
             int dateint = Integer.parseInt(date);
