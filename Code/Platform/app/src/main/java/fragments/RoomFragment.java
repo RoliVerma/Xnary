@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 
 import com.devhack.platform.GroupchatActivity;
 import com.devhack.platform.R;
+import com.devhack.platform.roomRecycler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -37,15 +40,18 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import Models.mRoom;
+
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class RoomFragment extends Fragment {
-    ImageView creatRoom;
+    ImageView creatRoom,createNewRoom;
     private DatabaseReference rootref,groupref;
     private View grpview;
-    private ListView list_view;
-    private ArrayAdapter<String> arrayadapter;
-    private ArrayList<String> listofgrps=new ArrayList<>();
+    private RecyclerView recyclerView;
+    private roomRecycler recyclerViewAdapter;
+    private ArrayList<mRoom> listofgrps;
+    private mRoom mlistroom=null;
 
 
     @Override
@@ -54,22 +60,35 @@ public class RoomFragment extends Fragment {
         // Inflate the layout for this fragment
         grpview= inflater.inflate(R.layout.fragment_room, container, false);
         creatRoom = grpview.findViewById(R.id.createroom);
+        createNewRoom=grpview.findViewById(R.id.createnewroom);
+        recyclerView = grpview.findViewById(R.id.chatsRv);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setHasFixedSize(true);
+        listofgrps = new ArrayList<>();
         rootref = FirebaseDatabase.getInstance().getReference();
         groupref= FirebaseDatabase.getInstance().getReference().child("Rooms");
         initializefileds(grpview);
+        createNewRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestnewroom();
+            }
+        });
         rootref.child("Rooms").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Toast.makeText(getContext(), "Got some Rooms", Toast.LENGTH_LONG).show();
+                    createNewRoom.setVisibility(View.VISIBLE);
+                    Toast.makeText(getActivity(), "Got some Rooms", Toast.LENGTH_LONG).show();
                     retriveanddisplaygroup();
                 } else {
                     creatRoom.setVisibility(View.VISIBLE);
-                    Toast.makeText(getContext(), "No Rooms", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "No Rooms", Toast.LENGTH_LONG).show();
                     creatRoom.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                         requestnewroom();
+                            requestnewroom();
                         }
 
 
@@ -82,65 +101,56 @@ public class RoomFragment extends Fragment {
 
             }
         });
-        list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                             @Override
-                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                 String currentgrpname = parent.getItemAtPosition(position).toString();
-                                                 Intent grpchatintent = new Intent(getContext(), GroupchatActivity.class);
-                                                 grpchatintent.putExtra("groupname", currentgrpname);
-                                                 startActivity(grpchatintent);
-                                             }
-                                         });
 
-                return grpview;
+        return grpview;
+    }
+
+    private void requestnewroom() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
+        builder.setTitle("Enter Group Name");
+        final EditText grpname = new EditText(getContext());
+        grpname.setHint(" eg.What is Newtons 1st Law");
+        builder.setView(grpname);
+        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String grp = grpname.getText().toString();
+                if (TextUtils.isEmpty(grp)) {
+                    Toast.makeText(getContext(), "Please enter a group name", Toast.LENGTH_LONG).show();
+                } else {
+
+                    createnewroom(grp);
+                }
+
             }
-
-            private void requestnewroom() {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialog);
-                builder.setTitle("Enter Group Name");
-                final EditText grpname = new EditText(getContext());
-                grpname.setHint(" eg.What is Newtons 1st Law");
-                builder.setView(grpname);
-                builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String grp = grpname.getText().toString();
-                        if (TextUtils.isEmpty(grp)) {
-                            Toast.makeText(getContext(), "Please enter a group name", Toast.LENGTH_LONG).show();
-                        } else {
-
-                            createnewroom(grp);
-                        }
-
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
-                    }
-
-
-            private void createnewroom(final String grp) {
-                rootref.child("Rooms").child(grp).setValue("").addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            creatRoom.setVisibility(View.INVISIBLE);
-                            Toast.makeText(getContext(), grp + "Created successfully !!", Toast.LENGTH_LONG).show();
-                            retriveanddisplaygroup();
-                        }
-
-                    }
-                });
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
             }
+        });
+        builder.show();
+    }
+
+
+    private void createnewroom(final String grp) {
+        rootref.child("Rooms").child(grp).setValue("").addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    creatRoom.setVisibility(View.INVISIBLE);
+                    createNewRoom.setVisibility(View.VISIBLE);
+                    Toast.makeText(getContext(), grp + "Created successfully !!", Toast.LENGTH_LONG).show();
+                    retriveanddisplaygroup();
+                }
+
+            }
+        });
+    }
     private void initializefileds(View view) {
-        list_view=view.findViewById(R.id.list_view);
-        arrayadapter=new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,listofgrps);
-        list_view.setAdapter(arrayadapter);
+        recyclerViewAdapter = new roomRecycler(getContext(),listofgrps);
+        recyclerView.setAdapter(recyclerViewAdapter);
 
 
     }
@@ -148,15 +158,17 @@ public class RoomFragment extends Fragment {
         rootref.child("Rooms").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Set<String> set=new HashSet<>();
+
                 Iterator iterator=dataSnapshot.getChildren().iterator();
                 while(iterator.hasNext())
                 {
-                    set.add(((DataSnapshot)iterator.next()).getKey());
+                    mlistroom = new mRoom();
+                    String name=(((DataSnapshot)iterator.next()).getKey());
+                    mlistroom.setRoomname(name);
+                    listofgrps.add(mlistroom);
+
                 }
-                listofgrps.clear();
-                listofgrps.addAll(set);
-                arrayadapter.notifyDataSetChanged();
+                recyclerView.setAdapter(new roomRecycler(getContext(),listofgrps));
             }
 
             @Override
