@@ -15,6 +15,7 @@ A brief description of
 #### Architecture Diagram
 
 Affix an image of the flow diagram/architecture diagram of the solution
+![](PPT/architechture%20diagram.jpeg)
 
 #### Technical Description
 
