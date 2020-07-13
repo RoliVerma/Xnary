@@ -1,5 +1,3 @@
-## Dementor Divas - Education
-
 ### Project Overview
 ----------------------------------
 
